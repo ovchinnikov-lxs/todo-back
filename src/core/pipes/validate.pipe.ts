@@ -18,9 +18,16 @@ export class ValidateInputPipe implements PipeTransform<any> {
         const errors = await validate(obj);
 
         if (errors.length) {
-            const messages = errors.map(err => ({
-                [err.property]: Object.keys(err.constraints),
-            }))
+            const messages = errors.reduce((acc, currentError) => ({
+                ...acc,
+                [currentError.property]: Object.keys(currentError.constraints).reduce((accField, cur) => ({
+                    ...accField,
+                    [cur]: {
+                        msg: currentError.constraints[cur],
+                        value: 'add value from validation',
+                    }
+                }), {}),
+            }), {});
             throw new ValidationException(messages)
         }
         return value;
