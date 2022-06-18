@@ -5,9 +5,11 @@ import { SequelizeModule } from '@nestjs/sequelize';
 // Modules
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
-
+import { TodosModule } from "./modules/todos/todos.module";
 // Models
 import { User } from './modules/users/user.entity';
+import { Todo } from './modules/todos/todo.entity';
+
 
 @Module({
   imports: [
@@ -21,14 +23,14 @@ import { User } from './modules/users/user.entity';
       database: process.env.DB_NAME_DEVELOPMENT,
       models: [
         User,
-        // Todo
+        Todo,
       ],
       autoLoadModels: true,
     }),
     // Users Modules
     AuthModule,
     UsersModule,
-    //   TodoModule,
+    TodosModule,
   ],
 })
 export class AppModule {}
